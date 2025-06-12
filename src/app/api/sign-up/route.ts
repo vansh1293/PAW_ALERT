@@ -17,6 +17,7 @@ export async function POST(request: Request) {
                 headers: { "Content-Type": "application/json" },
             });
         }
+        console.log("Existing user verified by username:", existingUserVerifiedByUsername);
         const existingUserByEmail = await UserModel.findOne({
             email
         });
@@ -49,7 +50,6 @@ export async function POST(request: Request) {
                 verifyCode,
                 verifyCodeExpires: expiryDate,
                 isVerified: false,
-                isAccepting: true,
                 EarnedPoints: 0
             });
             await newUser.save();

@@ -45,7 +45,6 @@ export const authOptions: NextAuthOptions = {
                             email: user.email,
                             username: user.username,
                             isVerified: user.isVerified,
-                            isAccepting: user.isAccepting,
                             EarnedPoints: user.EarnedPoints
                         };
                     }
@@ -66,7 +65,6 @@ export const authOptions: NextAuthOptions = {
             if (user) {
                 token._id = user._id;
                 token.isVerified = user.isVerified;
-                token.isAccepting = user.isAccepting;
                 token.username = user.username;
                 token.EarnedPoints = user.EarnedPoints;
             }
@@ -76,7 +74,6 @@ export const authOptions: NextAuthOptions = {
             if (token) {
                 session.user._id = token._id;
                 session.user.isVerified = token.isVerified;
-                session.user.isAccepting = token.isAccepting;
                 session.user.username = token.username;
                 session.user.EarnedPoints = token.EarnedPoints;
             }
