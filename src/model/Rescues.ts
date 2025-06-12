@@ -1,4 +1,4 @@
-import mongoose ,{Document,Schema  } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 
 export interface Rescues extends Document {
@@ -10,7 +10,7 @@ export interface Rescues extends Document {
     imageUrl: string;
     date: Date;
     status: 'open' | 'in-progress' | 'closed';
-    userId: mongoose.Types.ObjectId; // Reference to the User
+    userId: mongoose.Types.ObjectId;
 }
 
 const RescuesSchema: Schema<Rescues> = new Schema({
