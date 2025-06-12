@@ -49,7 +49,6 @@ export async function POST(request: Request) {
                 verifyCode,
                 verifyCodeExpires: expiryDate,
                 isVerified: false,
-                isAccepting: true,
                 EarnedPoints: 0
             });
             await newUser.save();
