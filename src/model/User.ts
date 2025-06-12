@@ -1,14 +1,15 @@
-import mongoose ,{Document,Schema  } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 
 export interface User extends Document {
-    username:string,
-    password:string,
-    email:string,
-    isVerified?: boolean,
-    verifyCode:string,
-    verifyCodeExpires:Date,
-    isAcceptingMessages: boolean,
+    username: string,
+    password: string,
+    email: string,
+    isVerified: boolean,
+    verifyCode: string,
+    verifyCodeExpires: Date,
+    isAccepting: boolean,
+    EarnedPoints: number,
     rescues?: mongoose.Types.ObjectId[]
 }
 
@@ -40,15 +41,19 @@ const UserSchema: Schema<User> = new Schema({
         type: Date,
         required: true
     },
-    isAcceptingMessages: {
+    isAccepting: {
         type: Boolean,
         default: false
+    },
+    EarnedPoints: {
+        type: Number,
+        default: 0
     },
     rescues: [{
         type: Schema.Types.ObjectId,
         ref: 'Rescues'
     }]
-   
+
 });
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>('User', UserSchema);
