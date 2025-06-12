@@ -1,10 +1,11 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import { formSchema } from "@/schemas/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@react-email/components";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 export default function Page() {
   const {
@@ -43,7 +44,7 @@ export default function Page() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <input
+      <Input
         type="file"
         accept="image/*"
         onChange={(e) => {
@@ -54,19 +55,19 @@ export default function Page() {
       />
       {errors.image && <span>{String(errors.image.message)}</span>}
 
-      <input type="text" placeholder="Location" {...register("location")} />
+      <Input type="text" placeholder="Location" {...register("location")} />
       {errors.location && <span>{errors.location.message}</span>}
 
-      <input
+      <Input
         type="text"
         placeholder="Description"
         {...register("description")}
       />
       {errors.description && <span>{errors.description.message}</span>}
 
-      <button className="border" type="submit">
+      <Button className="border" type="submit">
         Submit
-      </button>
+      </Button>
     </form>
   );
 }
