@@ -14,37 +14,15 @@ export interface User extends Document {
 }
 
 const UserSchema: Schema<User> = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
+    username: { type: String, required: [true, "Username is required"], trim: true, unique: true },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        match: /.+\@.+\..+/
+        type: String, required: [true, "Email is required"], unique: true, match: [/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, "Please use a valid email address"]
     },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
-    verifyCode: {
-        type: String,
-        required: true
-    },
-    verifyCodeExpires: {
-        type: Date,
-        required: true
-    },
-    isAccepting: {
-        type: Boolean,
-        default: false
-    },
+    password: { type: String, required: [true, "Password is required"] },
+    verifyCode: { type: String },
+    verifyCodeExpires: { type: Date },
+    isVerified: { type: Boolean, default: false },
+    isAccepting: { type: Boolean, default: false },
     EarnedPoints: {
         type: Number,
         default: 0
