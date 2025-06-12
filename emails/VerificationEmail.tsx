@@ -1,48 +1,52 @@
 import {
-    Html,
-    Head,
-    Font,
-    Preview,
-    Row,
-    Section,
-    Text,
-    Heading
-} from '@react-email/components';
+  Html,
+  Head,
+  Preview,
+  Tailwind,
+  Body,
+  Container,
+  Section,
+  Text,
+  Img,
+} from "@react-email/components";
+import * as React from "react";
 
 interface VerificationEmailProps {
-    username: string;
+  username: string;
     otp: string;
 }
-
 export default function VerificationEmail({ username, otp }: VerificationEmailProps) {
-    return (
-        <Html>
-            <Head>
-                <title>Verification Email</title>
-                <Font
-                    fontFamily="Arial"
-                    fallbackFontFamily="sans-serif"
-                />
-            </Head>
-            <Preview>Verify your account with the OTP provided</Preview>
-            <Section style={{ padding: '20px', backgroundColor: '#f4f4f4' }}>
-                <Row>
-                    <Heading style={{ color: '#333' }}>
-                        Hello {username},
-                    </Heading>
-                </Row>
-                <Row>
-                    <Text style={{ color: '#555' }}>
-                        Your verification code is: <strong>{otp}</strong>
-                    </Text>
-                </Row>
-                <Row>
-                    <Text style={{ color: '#555' }}>
-                        Please use this code to verify your account.
-                    </Text>
-                </Row>
+  return (
+    <Html>
+      <Head />
+      <Preview>Your verification code is {otp}</Preview>
+      <Tailwind>
+        <Body className="bg-gray-100 font-sans">
+          <Container className="bg-white rounded-2xl shadow-md p-8 max-w-xl mx-auto">
+            <Section className="text-center">
+              <Img
+                src="https://yourdomain.com/logo.png"
+                width="80"
+                height="80"
+                alt="Logo"
+                className="mx-auto mb-4"
+              />
+              <Text className="text-xl font-bold text-gray-800 mb-2">
+                Welcome to Our App, {username}!
+              </Text>
+              <Text className="text-gray-600 mb-6">
+                Use the following OTP to verify your email address:
+              </Text>
+              <Text className="text-3xl font-mono font-semibold text-blue-600 tracking-widest mb-6">
+                {otp}
+              </Text>
+              <Text className="text-gray-500 text-sm">
+                If you did not create an account, you can safely ignore this email.
+              </Text>
             </Section>
-        </Html>
-    );
-
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  );
 }
