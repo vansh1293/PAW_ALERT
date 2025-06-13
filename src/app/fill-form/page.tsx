@@ -5,6 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 
 export default function Page() {
   const {
@@ -42,31 +52,65 @@ export default function Page() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          if (e.target.files && e.target.files[0]) {
-            setValue("image", e.target.files[0]);
-          }
-        }}
-      />
-      {errors.image && <span>{String(errors.image.message)}</span>}
-
-      <input type="text" placeholder="Location" {...register("location")} />
-      {errors.location && <span>{errors.location.message}</span>}
-
-      <input
-        type="text"
-        placeholder="Description"
-        {...register("description")}
-      />
-      {errors.description && <span>{errors.description.message}</span>}
-
-      <button className="border" type="submit">
-        Submit
-      </button>
-    </form>
+    <Form {...{ handleSubmit }}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
+      >
+        <FormField
+          name="image"
+          render={() => (
+            <FormItem>
+              <Label>Image</Label>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setValue("image", e.target.files[0]);
+                    }
+                  }}
+                />
+              </FormControl>
+              <FormMessage>
+                {errors.image && String(errors.image.message)}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <Label>Location</Label>
+              <FormControl>
+                <Input type="text" placeholder="Location" {...field} />
+              </FormControl>
+              <FormMessage>
+                {errors.location && errors.location.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <Label>Description</Label>
+              <FormControl>
+                <Input type="text" placeholder="Description" {...field} />
+              </FormControl>
+              <FormMessage>
+                {errors.description && errors.description.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+        <Button className="mt-4" type="submit">
+          Submit
+        </Button>
+      </form>
+    </Form>
   );
 }
