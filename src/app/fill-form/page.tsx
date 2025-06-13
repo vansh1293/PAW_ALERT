@@ -3,11 +3,9 @@
 import { Input } from "@/components/ui/input";
 import { formSchema } from "@/schemas/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@react-email/components";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,12 +17,7 @@ import {
 } from "@/components/ui/form";
 
 export default function Page() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       location: "",
@@ -32,13 +25,13 @@ export default function Page() {
       image: undefined,
     },
   });
+  const { handleSubmit, setValue, formState: { errors } } = form;
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const formData = new FormData();
     formData.append("image", data.image);
     formData.append("location", data.location);
     formData.append("description", data.description);
-
     try {
       const response = await axios.post("/api/fill-form", formData, {
         headers: {
@@ -54,12 +47,13 @@ export default function Page() {
   };
 
   return (
-    <Form {...{ handleSubmit }}>
+    <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
       >
         <FormField
+          control={form.control}
           name="image"
           render={() => (
             <FormItem>
@@ -75,13 +69,12 @@ export default function Page() {
                   }}
                 />
               </FormControl>
-              <FormMessage>
-                {errors.image && String(errors.image.message)}
-              </FormMessage>
+              <FormMessage />
             </FormItem>
           )}
         />
         <FormField
+          control={form.control}
           name="location"
           render={({ field }) => (
             <FormItem>
@@ -89,13 +82,12 @@ export default function Page() {
               <FormControl>
                 <Input type="text" placeholder="Location" {...field} />
               </FormControl>
-              <FormMessage>
-                {errors.location && errors.location.message}
-              </FormMessage>
+              <FormMessage />
             </FormItem>
           )}
         />
         <FormField
+          control={form.control}
           name="description"
           render={({ field }) => (
             <FormItem>
@@ -103,9 +95,7 @@ export default function Page() {
               <FormControl>
                 <Input type="text" placeholder="Description" {...field} />
               </FormControl>
-              <FormMessage>
-                {errors.description && errors.description.message}
-              </FormMessage>
+              <FormMessage />
             </FormItem>
           )}
         />
